@@ -8,7 +8,7 @@ import numpy
 # Importar el modulo donde esta la clase robot
 import simRobot
 # Importar el modulo donde tengo el mapa
-import Matrizmundo
+import mapas
 import matplotlib.pyplot as plt
 
 # Crear un objeto robot
@@ -17,13 +17,13 @@ r1 = simRobot.simepuck()
 print r1
 
 # Asignamos el mapa en el que se va a mover el robot
-mapa_mundo = Matrizmundo.get_mundo()
+mapa_mundo = mapas.get_mundo()
 pixelsize = 4.0
 mundo_limX = len(mapa_mundo[0]) * pixelsize
 mundo_limY = len(mapa_mundo) * pixelsize
 
 print mundo_limX, mundo_limY
-mapa_suelo = Matrizmundo.get_suelo()
+mapa_suelo = mapas.get_suelo()
 print mapa_mundo
 print mapa_suelo
 
