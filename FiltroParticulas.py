@@ -125,7 +125,7 @@ plot_robot_part(mapa_mundo, pixelsize, real, particulas, 'b')
 # Conjunto de movimientos que va a hacer el robot real:
 Delta_t = 0.5
 motions = [[300, 450, Delta_t], [300, 450, Delta_t], [300, 450, Delta_t], [300, 450, Delta_t], [300, 450, Delta_t],
-           [300, 350, Delta_t]]
+            [300, 350, Delta_t]]
 
 def genera_nuevas_particulas(aParticulas, probabilidades):
     nuevasParticulas = []
