@@ -211,4 +211,15 @@ for i in range(len(mapa_mundo)):
             aux = [math.fabs(posicionEnMapa[0] - i), math.fabs(posicionEnMapa[1] - j)]
             matrizCostes[i][j] = max(aux)
 
-print "Matriz de costes:", matrizCostes
+print "Matriz de costes:\n", matrizCostes
+posicionObjetivo = [20/4, 20/4] # posicion / pixelSize
+matrizHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
+# Calculamos la atriz heuristica siguindo la distancia Manhattan
+for i in range(len(mapa_mundo)):
+    for j in range(len(mapa_mundo)):
+        elem = mapa_mundo[i][j]
+        if (elem == 1):
+            matrizHeuristica[i][j] = 1000
+        else:
+            matrizHeuristica[i][j] = math.fabs(i - posicionObjetivo[0]) + math.fabs(j - posicionObjetivo[1])
+print "Matriz de heurística:\n", matrizHeuristica
