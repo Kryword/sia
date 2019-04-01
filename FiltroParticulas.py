@@ -146,6 +146,7 @@ def genera_nuevas_particulas(aParticulas, probabilidades):
 # Bucle que simula el movimiento del robot.
 # En cada movimiento se va actualizando las particulas mediante el remuestro. 
 # Simulamos los movimientos del robot mediante un for.
+posicionEstimada = [0, 0, 0]
 for m in motions:
     # Primero mover el robot 'real'
     real.set_motors_speed(m[0], m[1], m[2])
@@ -180,7 +181,8 @@ for m in motions:
     # Calcular el nuevo conjunto de particulas utilizando la rueda de remuestreo
     nuevasparticulas = genera_nuevas_particulas(particulas, probabilidades)
     # Calcular la posicion media del conjunto de particulas
-    print 'Posicion estimada:', get_position(particulas)
+    posicionEstimada = get_position(particulas)
+    print 'Posicion estimada:', posicionEstimada
     # imprimir el robot y las particulas
     plot_robot_part(mapa_mundo, pixelsize, real, particulas, w)
     particulas = nuevasparticulas
@@ -188,3 +190,25 @@ for m in motions:
 # Cuando funcione el filtro particulas para detectar la poscion de la instancia 
 # robot real, utiliza el codigo que has generado para localizar al robot epck
 # sobre la cuadricula impresa.
+
+
+# Obtener un camino válido y recorrerlo
+# Posición a la que queremos llegar: x = 20, y = 20
+print 'Posicion estimada: ', posicionEstimada
+print 'Posición real: ', real.get_estado()
+posicionEnMapa = [0, 0]
+posicionEnMapa[0] = math.floor(posicionEstimada[0]/4)
+posicionEnMapa[1] = math.floor(posicionEstimada[1]/4)
+
+matrizCostes = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
+#print len(mapa_mundo)
+for i in range(len(mapa_mundo)):
+    for j in range(len(mapa_mundo)):
+        elem = mapa_mundo[i][j]
+        if (elem == 1):
+            matrizCostes[i][j] = 1000
+        else:
+            aux = [math.fabs(posicionEnMapa[0] - i), math.fabs(posicionEnMapa[1] - j)]
+            matrizCostes[i][j] = max(aux)
+
+print "Matriz de costes:", matrizCostes
