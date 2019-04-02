@@ -183,6 +183,7 @@ for m in motions:
     # Calcular la posicion media del conjunto de particulas
     posicionEstimada = get_position(particulas)
     print 'Posicion estimada:', posicionEstimada
+    print 'Posición real: ', real.get_estado()
     # imprimir el robot y las particulas
     plot_robot_part(mapa_mundo, pixelsize, real, particulas, w)
     particulas = nuevasparticulas
@@ -194,7 +195,7 @@ for m in motions:
 
 # Obtener un camino válido y recorrerlo
 # Posición a la que queremos llegar: x = 20, y = 20
-print 'Posicion estimada: ', posicionEstimada
+print 'Posicion estimada final: ', posicionEstimada
 print 'Posición real: ', real.get_estado()
 posicionEnMapa = [0, 0]
 posicionEnMapa[0] = math.floor(posicionEstimada[0]/4)
@@ -223,3 +224,10 @@ for i in range(len(mapa_mundo)):
         else:
             matrizHeuristica[i][j] = math.fabs(i - posicionObjetivo[0]) + math.fabs(j - posicionObjetivo[1])
 print "Matriz de heurística:\n", matrizHeuristica
+
+# Calculamos la matriz coste más heuristica
+matrizCosteMasHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
+for i in range(len(mapa_mundo)):
+    for j in range(len(mapa_mundo)):
+        matrizCosteMasHeuristica[i][j] = matrizCostes[i][j] + matrizHeuristica[i][j]
+print "Matriz coste mas heuristica:\n", matrizCosteMasHeuristica
