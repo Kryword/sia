@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Algoritmo del filtro particulas
 #
 
@@ -10,6 +12,7 @@ import simRobot
 # Importar el modulo donde tengo el mapa
 import mapas
 import matplotlib.pyplot as plt
+import pprint
 
 # Crear un objeto robot
 r1 = simRobot.simepuck()
@@ -211,8 +214,8 @@ for i in range(len(mapa_mundo)):
         else:
             aux = [math.fabs(posicionEnMapa[0] - i), math.fabs(posicionEnMapa[1] - j)]
             matrizCostes[i][j] = max(aux)
-
-print "Matriz de costes:\n", matrizCostes
+numpy.set_printoptions(precision=3, suppress=True)
+print("Matriz de costes:\n", matrizCostes)
 posicionObjetivo = [20/4, 20/4] # posicion / pixelSize
 matrizHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
 # Calculamos la atriz heuristica siguindo la distancia Manhattan
@@ -223,11 +226,11 @@ for i in range(len(mapa_mundo)):
             matrizHeuristica[i][j] = 1000
         else:
             matrizHeuristica[i][j] = math.fabs(i - posicionObjetivo[0]) + math.fabs(j - posicionObjetivo[1])
-print "Matriz de heurística:\n", matrizHeuristica
+print("Matriz de heurística:\n", matrizHeuristica)
 
 # Calculamos la matriz coste más heuristica
 matrizCosteMasHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
 for i in range(len(mapa_mundo)):
     for j in range(len(mapa_mundo)):
         matrizCosteMasHeuristica[i][j] = matrizCostes[i][j] + matrizHeuristica[i][j]
-print "Matriz coste mas heuristica:\n", matrizCosteMasHeuristica
+print("Matriz coste mas heuristica:\n", matrizCosteMasHeuristica)
