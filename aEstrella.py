@@ -29,22 +29,18 @@ abajo = 'v'
 izquierda = '<'
 derecha = '>'
 
-estado_final = [15, 15]
+estado_final = [10, 10]
 nodo_inicial = Nodo([6, 6]) # Del filtro de partículas
 
-matrizCoste = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
-matrizHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
-matrizCosteMasHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
-
-def sucesor(nodo, operador):
+def sucesor(nodo, operador, matrizHeu):
     if (operador == arriba):
-        return aplicaArriba(nodo)
+        return aplicaArriba(nodo, matrizHeu)
     elif(operador == abajo):
-        return aplicaAbajo(nodo)
+        return aplicaAbajo(nodo, matrizHeu)
     elif (operador == izquierda):
-        return aplicaIzquierda(nodo)
+        return aplicaIzquierda(nodo, matrizHeu)
     elif (operador == derecha):
-        return aplicaDerecha(nodo)
+        return aplicaDerecha(nodo, matrizHeu)
     else:
         print "ERROR: Aplicando operador desconocido --> ", operador
         nodo.estado = [-1, -1]
@@ -55,42 +51,42 @@ def esSeguro(estado):
 
 ## Funciones que aplican los diferentes operadores
 
-def aplicaArriba(nodo):
+def aplicaArriba(nodo, matrizHeu):
     nodo.estado[1] -= 1
     if(esSeguro(nodo.estado)):
         nodo.camino.append(arriba)
         nodo.coste += 1
-        nodo.heuristica = matrizHeuristica[nodo.estado[0]][nodo.estado[1]]
+        nodo.heuristica = matrizHeu[nodo.estado[0]][nodo.estado[1]]
     else:
         nodo.estado = [-1,-1]
     return nodo
 
-def aplicaAbajo(nodo):
+def aplicaAbajo(nodo, matrizHeu):
     nodo.estado[1] += 1
     if(esSeguro(nodo.estado)):
         nodo.camino.append(abajo)
         nodo.coste += 1
-        nodo.heuristica = matrizHeuristica[nodo.estado[0]][nodo.estado[1]]
+        nodo.heuristica = matrizHeu[nodo.estado[0]][nodo.estado[1]]
     else:
         nodo.estado = [-1,-1]
     return nodo
 
-def aplicaIzquierda(nodo):
+def aplicaIzquierda(nodo, matrizHeu):
     nodo.estado[0] -= 1
     if(esSeguro(nodo.estado)):
         nodo.camino.append(izquierda)
         nodo.coste += 1
-        nodo.heuristica = matrizHeuristica[nodo.estado[0]][nodo.estado[1]]
+        nodo.heuristica = matrizHeu[nodo.estado[0]][nodo.estado[1]]
     else:
         nodo.estado = [-1,-1]
     return nodo
 
-def aplicaDerecha(nodo):
+def aplicaDerecha(nodo, matrizHeu):
     nodo.estado[0] += 1
     if(esSeguro(nodo.estado)):
         nodo.camino.append(derecha)
         nodo.coste += 1
-        nodo.heuristica = matrizHeuristica[nodo.estado[0]][nodo.estado[1]]
+        nodo.heuristica = matrizHeu[nodo.estado[0],nodo.estado[1]]
     else:
         nodo.estado = [-1,-1]
     return nodo
@@ -99,11 +95,11 @@ def aplicaDerecha(nodo):
 def es_estado_final(estado):
     return (estado[0] == estado_final[0] and estado[1] == estado_final[1])
 
-def sucesores(nodo):
+def sucesores(nodo,matrizHeu):
     colaSucesores = Queue()
     for i in [arriba, abajo, izquierda, derecha]:
         nodoAux = copy.deepcopy(nodo)
-        rtaSucesor = sucesor(nodoAux, i)
+        rtaSucesor = sucesor(nodoAux, i , matrizHeu)
         if(rtaSucesor['estado'] != [-1,-1]):
             colaSucesores.put(rtaSucesor)
     return colaSucesores
@@ -114,40 +110,39 @@ def gestionar_cola(ABIERTOS, NUEVOS_SUCESORES):
     listaAuxAbiertos = []
     listaFinal = []
 
-    try:
-        while (~ABIERTOS.empty()):
-            nodoSucesor = ABIERTOS.get()
-            listaAuxAbiertos.append(nodoSucesor)
-            listaFinal.append(nodoSucesor)
-    except Empty:
-        pass
+    while (not ABIERTOS.empty()):
+        nodoSucesor = ABIERTOS.get()
+        listaAuxAbiertos.append(nodoSucesor)
+        listaFinal.append(nodoSucesor)
 
-    while (~NUEVOS_SUCESORES.empty()):
+    while (not NUEVOS_SUCESORES.empty()):
         nodoSucesor = NUEVOS_SUCESORES.get()
         if (nodoSucesor not in listaAuxAbiertos):
             listaFinal.append(nodoSucesor)
     listaFinal.sort(key = lambda nodo: nodo.coste + nodo.heuristica, reverse = False)
 
     for i in listaFinal:
-        colaOrdenada.put(i)    
+        colaOrdenada.put(i)
 
     return colaOrdenada
 
 ## Algoritmo principal
-def algoritmoAEstrella(matrizHeu, matrizCostHeu):
-    matrizHeuristica = copy.deepcopy(matrizHeu)
-    matrizCosteMasHeuristica = copy.deepcopy(matrizCostHeu)
+def algoritmoAEstrella(matrizHeu):
+
+    #matrizHeuristica = copy.deepcopy(matrizHeu)
+
     ABIERTOS = Queue()
     CERRADOS = Queue()
     NUEVOS_SUCESORES = Queue()
 
     # Hacer ABIERTOS la "cola" formada por el nodo inicial
     ABIERTOS.put(nodo_inicial)
-    while(~ABIERTOS.empty()):
+    while(not ABIERTOS.empty()):
         ACTUAL = ABIERTOS.get()
         CERRADOS.put(ACTUAL)
         if(es_estado_final(ACTUAL.estado)):
+            print str(ACTUAL.camino)
             return ACTUAL
         else:
-            NUEVOS_SUCESORES = sucesores(ACTUAL)
+            NUEVOS_SUCESORES = sucesores(ACTUAL,matrizHeu)
             ABIERTOS = gestionar_cola(ABIERTOS,NUEVOS_SUCESORES)

@@ -241,4 +241,4 @@ print("//           Ejecutando algoritmo A*          //")
 print("////////////////////////////////////////////////")
 print("////////////////////////////////////////////////")
 
-print(aEstrella.algoritmoAEstrella(matrizHeuristica, matrizCosteMasHeuristica))
+print(aEstrella.algoritmoAEstrella(matrizHeuristica))
