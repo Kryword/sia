@@ -13,6 +13,7 @@ import simRobot
 import mapas
 import matplotlib.pyplot as plt
 import pprint
+import aEstrella
 
 # Crear un objeto robot
 r1 = simRobot.simepuck()
@@ -234,3 +235,10 @@ for i in range(len(mapa_mundo)):
     for j in range(len(mapa_mundo)):
         matrizCosteMasHeuristica[i][j] = matrizCostes[i][j] + matrizHeuristica[i][j]
 print("Matriz coste mas heuristica:\n", matrizCosteMasHeuristica)
+
+print("////////////////////////////////////////////////")
+print("//           Ejecutando algoritmo A*          //")
+print("////////////////////////////////////////////////")
+print("////////////////////////////////////////////////")
+
+print(aEstrella.algoritmoAEstrella(matrizHeuristica, matrizCosteMasHeuristica))

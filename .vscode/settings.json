@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/alumno/anaconda2/bin/python"
+    "python.pythonPath": "/home/linux1/anaconda2/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
