@@ -14,6 +14,7 @@ import mapas
 import matplotlib.pyplot as plt
 import pprint
 import aEstrella
+import recorreCamino
 
 # Crear un objeto robot
 r1 = simRobot.simepuck()
@@ -241,4 +242,8 @@ print("//           Ejecutando algoritmo A*          //")
 print("////////////////////////////////////////////////")
 print("////////////////////////////////////////////////")
 
-print(aEstrella.algoritmoAEstrella(matrizHeuristica))
+resultadoAEstrella = aEstrella.algoritmoAEstrella(matrizHeuristica)
+print("Camino obtenido: ", resultadoAEstrella.camino)
+
+## TODO: Hacer una clase de recorreCamino para el simepuck, esta solo funcionaría con el epuck real
+#recorreCamino.recorreCamino(resultadoAEstrella.camino, 'v', real)
