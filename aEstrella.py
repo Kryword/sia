@@ -29,9 +29,6 @@ abajo = 'v'
 izquierda = '<'
 derecha = '>'
 
-estado_final = [10, 10]
-nodo_inicial = Nodo([6, 6]) # Del filtro de partículas
-
 def sucesor(nodo, operador, matrizHeu):
     if (operador == arriba):
         return aplicaArriba(nodo, matrizHeu)
@@ -92,7 +89,7 @@ def aplicaDerecha(nodo, matrizHeu):
     return nodo
 
 ## Función que verifica si hemos alcanzado el estado final
-def es_estado_final(estado):
+def es_estado_final(estado, estado_final):
     return (estado[0] == estado_final[0] and estado[1] == estado_final[1])
 
 def sucesores(nodo,matrizHeu):
@@ -127,7 +124,7 @@ def gestionar_cola(ABIERTOS, NUEVOS_SUCESORES):
     return colaOrdenada
 
 ## Algoritmo principal
-def algoritmoAEstrella(matrizHeu):
+def algoritmoAEstrella(matrizHeu, estado_inicial, estado_final):
 
     #matrizHeuristica = copy.deepcopy(matrizHeu)
 
@@ -136,11 +133,12 @@ def algoritmoAEstrella(matrizHeu):
     NUEVOS_SUCESORES = Queue()
 
     # Hacer ABIERTOS la "cola" formada por el nodo inicial
+    nodo_inicial = Nodo(estado_inicial)
     ABIERTOS.put(nodo_inicial)
     while(not ABIERTOS.empty()):
         ACTUAL = ABIERTOS.get()
         CERRADOS.put(ACTUAL)
-        if(es_estado_final(ACTUAL.estado)):
+        if(es_estado_final(ACTUAL.estado, estado_final)):
             print str(ACTUAL.camino)
             return ACTUAL
         else:

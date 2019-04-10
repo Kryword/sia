@@ -101,7 +101,7 @@ real.set_map(mapa_mundo, 4)
 real.set_floor_map(mapa_suelo)
 
 # Generar N particulas (instancias de robot) y colocarlas de forma aleatoria en lugares validos
-N = 500
+N = 1000
 particulas = []
 i = 0
 while i < N:
@@ -129,7 +129,7 @@ plot_robot_part(mapa_mundo, pixelsize, real, particulas, 'b')
 
 # Conjunto de movimientos que va a hacer el robot real:
 Delta_t = 0.5
-motions = [[300, 450, Delta_t], [300, 450, Delta_t], [300, 450, Delta_t], [300, 450, Delta_t], [300, 450, Delta_t],
+motions = [[-400, -450, Delta_t], [-250, -450, Delta_t], [300, 450, Delta_t], [350, 450, Delta_t], [250, 450, Delta_t],
             [300, 350, Delta_t]]
 
 def genera_nuevas_particulas(aParticulas, probabilidades):
@@ -242,7 +242,13 @@ print("//           Ejecutando algoritmo A*          //")
 print("////////////////////////////////////////////////")
 print("////////////////////////////////////////////////")
 
-resultadoAEstrella = aEstrella.algoritmoAEstrella(matrizHeuristica)
+posicionEstimadaDiscretizada = [int(posicionEstimada[0]/4), int(posicionEstimada[1]/4)]
+posicionObjetivoDiscretizada = [int(posicionObjetivo[0]), int(posicionObjetivo[1])]
+
+print posicionEstimadaDiscretizada
+print posicionObjetivoDiscretizada
+
+resultadoAEstrella = aEstrella.algoritmoAEstrella(matrizHeuristica, posicionEstimadaDiscretizada, posicionObjetivoDiscretizada)
 print("Camino obtenido: ", resultadoAEstrella.camino)
 
 ## TODO: Hacer una clase de recorreCamino para el simepuck, esta solo funcionaría con el epuck real
