@@ -14,7 +14,13 @@ import mapas
 import matplotlib.pyplot as plt
 import pprint
 import aEstrella
-import recorreCamino
+import recorreCaminoSimulado
+
+## Declaración de operadores
+arriba = '^'
+abajo = 'v'
+izquierda = '<'
+derecha = '>'
 
 # Crear un objeto robot
 r1 = simRobot.simepuck()
@@ -35,6 +41,8 @@ print mapa_suelo
 r1.set_map(mapa_mundo, 1)
 r1.set_floor_map(mapa_suelo)
 
+# Orientación hacía la derecha
+orientacionInicial = derecha
 # Asignamos un estado al robot r1
 r1.set_estado(10, 10, math.pi / 2)
 print r1
@@ -129,7 +137,7 @@ plot_robot_part(mapa_mundo, pixelsize, real, particulas, 'b')
 
 # Conjunto de movimientos que va a hacer el robot real:
 Delta_t = 0.5
-motions = [[-400, -450, Delta_t], [-250, -450, Delta_t], [300, 450, Delta_t], [350, 450, Delta_t], [250, 450, Delta_t],
+motions = [[400, 450, Delta_t], [-250, -450, Delta_t], [300, 450, Delta_t], [350, 450, Delta_t], [250, 450, Delta_t],
             [300, 350, Delta_t]]
 
 def genera_nuevas_particulas(aParticulas, probabilidades):
@@ -206,19 +214,7 @@ posicionEnMapa = [0, 0]
 posicionEnMapa[0] = math.floor(posicionEstimada[0]/4)
 posicionEnMapa[1] = math.floor(posicionEstimada[1]/4)
 
-matrizCostes = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
-#print len(mapa_mundo)
-for i in range(len(mapa_mundo)):
-    for j in range(len(mapa_mundo)):
-        elem = mapa_mundo[i][j]
-        if (elem == 1):
-            matrizCostes[i][j] = 1000
-        else:
-            aux = [math.fabs(posicionEnMapa[0] - i), math.fabs(posicionEnMapa[1] - j)]
-            matrizCostes[i][j] = max(aux)
-numpy.set_printoptions(precision=3, suppress=True)
-print("Matriz de costes:\n", matrizCostes)
-posicionObjetivo = [20/4, 20/4] # posicion / pixelSize
+posicionObjetivo = [40/4, 40/4] # posicion / pixelSize
 matrizHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
 # Calculamos la atriz heuristica siguindo la distancia Manhattan
 for i in range(len(mapa_mundo)):
@@ -229,13 +225,6 @@ for i in range(len(mapa_mundo)):
         else:
             matrizHeuristica[i][j] = math.fabs(i - posicionObjetivo[0]) + math.fabs(j - posicionObjetivo[1])
 print("Matriz de heurística:\n", matrizHeuristica)
-
-# Calculamos la matriz coste más heuristica
-matrizCosteMasHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
-for i in range(len(mapa_mundo)):
-    for j in range(len(mapa_mundo)):
-        matrizCosteMasHeuristica[i][j] = matrizCostes[i][j] + matrizHeuristica[i][j]
-print("Matriz coste mas heuristica:\n", matrizCosteMasHeuristica)
 
 print("////////////////////////////////////////////////")
 print("//           Ejecutando algoritmo A*          //")
@@ -252,4 +241,4 @@ resultadoAEstrella = aEstrella.algoritmoAEstrella(matrizHeuristica, posicionEsti
 print("Camino obtenido: ", resultadoAEstrella.camino)
 
 ## TODO: Hacer una clase de recorreCamino para el simepuck, esta solo funcionaría con el epuck real
-#recorreCamino.recorreCamino(resultadoAEstrella.camino, 'v', real)
+recorreCaminoSimulado.recorreCamino(resultadoAEstrella.camino, orientacionInicial, real)

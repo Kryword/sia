@@ -37,7 +37,6 @@ def gira(robot, ang, t):
     t1 = time.clock()
     #print "Giro: ", vel, inversa, ticksPorSegundoR, ticksPorSegundoL
     while(time.clock() - t1 <= t):
-        posicion = robot.get_motor_position()
         robot.set_motor_position(0, 0)
         robot.set_motors_speed(ticksPorSegundoL, ticksPorSegundoR)
         robot.step()
@@ -52,7 +51,6 @@ def move(robot, dist, t):
     ticksPorSegundo = radToTick(float(fiR))
     t1 = time.clock()
     while(time.clock() - t1 <= t):
-        posicion = robot.get_motor_position()
         robot.set_motor_position(0, 0)
         robot.set_motors_speed(ticksPorSegundo, ticksPorSegundo)
         robot.step()

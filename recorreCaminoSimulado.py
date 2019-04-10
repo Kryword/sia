@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import time
-from funcionesMovimiento import gira, move
+from funcionesMovimientoSimulado import gira, move
+import matplotlib.pyplot as plt
+import mapas
 
 ## Declaración de operadores
 arriba = '^'
@@ -23,6 +25,7 @@ def recorreCamino(camino, orientacion, robot):
         else:
             print("ERROR: No existe la dirección en la que se está intentando dirigir el robot")
         orientacion = direccion
+        plot_robot_part(mapas.get_mundo(), 4.0, robot)
 
 
 def mueveArriba(orientacion, robot):
@@ -33,7 +36,7 @@ def mueveArriba(orientacion, robot):
             gira(robot, 90, 0.5)
         elif (orientacion == derecha):
             gira(robot, -90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
 
 def mueveAbajo(orientacion, robot):
     if (orientacion != abajo):
@@ -43,7 +46,7 @@ def mueveAbajo(orientacion, robot):
             gira(robot, -90, 0.5)
         elif (orientacion == derecha):
             gira(robot, 90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
 
 def mueveIzquierda(orientacion, robot):
     if (orientacion != izquierda):
@@ -53,7 +56,7 @@ def mueveIzquierda(orientacion, robot):
             gira(robot, 90, 0.5)
         elif (orientacion == arriba):
             gira(robot, -90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
 
 def mueveDerecha(orientacion, robot):
     if (orientacion != derecha):
@@ -63,4 +66,17 @@ def mueveDerecha(orientacion, robot):
             gira(robot, -90, 0.5)
         elif (orientacion == arriba):
             gira(robot, 90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
+
+
+
+def plot_robot_part(mapa, ps, robot):
+    mapa_imp = [[1 for j in range(len(mapa[0]))] for i in range(len(mapa))]
+    for i in range(len(mapa)):
+        for j in range(len(mapa[0])):
+            mapa_imp[i][j] = mapa_imp[i][j] - mapa[i][j]
+
+    plt.scatter(robot.x / ps, robot.y / ps, marker='o', s=1000, c='r')
+    plt.imshow(mapa_imp, origin='upper', extent=(0, len(mapa[0]), 0, len(mapa)))
+    plt.gray()
+    plt.show()
