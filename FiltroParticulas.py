@@ -17,6 +17,9 @@ import aEstrella
 import recorreCaminoSimulado
 import funcionesMovimientoSimulado
 
+## Generación de posición inicial aleatoria
+posicion_inicial = [int(random.random() * 12), int(random.random() * 12), math.pi / 2]
+
 ## Declaración de operadores
 arriba = '^'
 abajo = 'v'
@@ -45,7 +48,7 @@ r1.set_floor_map(mapa_suelo)
 # Orientación hacía la derecha
 orientacionInicial = arriba
 # Asignamos un estado al robot r1
-r1.set_estado(10, 10, math.pi / 2)
+r1.set_estado(posicion_inicial[0], posicion_inicial[1], posicion_inicial[2])
 print r1
 
 # Obtenemos los valores de los sensores de proximidad
