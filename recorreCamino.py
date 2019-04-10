@@ -33,7 +33,7 @@ def mueveArriba(orientacion, robot):
             gira(robot, 90, 0.5)
         elif (orientacion == derecha):
             gira(robot, -90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
 
 def mueveAbajo(orientacion, robot):
     if (orientacion != abajo):
@@ -43,7 +43,7 @@ def mueveAbajo(orientacion, robot):
             gira(robot, -90, 0.5)
         elif (orientacion == derecha):
             gira(robot, 90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
 
 def mueveIzquierda(orientacion, robot):
     if (orientacion != izquierda):
@@ -53,7 +53,7 @@ def mueveIzquierda(orientacion, robot):
             gira(robot, 90, 0.5)
         elif (orientacion == arriba):
             gira(robot, -90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)
 
 def mueveDerecha(orientacion, robot):
     if (orientacion != derecha):
@@ -63,4 +63,4 @@ def mueveDerecha(orientacion, robot):
             gira(robot, -90, 0.5)
         elif (orientacion == arriba):
             gira(robot, 90, 0.5)
-    move(robot, 4, 0.5)
+    move(robot, 40, 0.5)

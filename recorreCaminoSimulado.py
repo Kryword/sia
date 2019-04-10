@@ -12,7 +12,7 @@ abajo = 'v'
 izquierda = '<'
 derecha = '>'
 
-def recorreCamino(camino, orientacion, robot):
+def recorreCamino(camino, orientacion, robot, final):
     for direccion in camino:
         if direccion == arriba:
             mueveArriba(orientacion, robot)
@@ -25,7 +25,7 @@ def recorreCamino(camino, orientacion, robot):
         else:
             print("ERROR: No existe la dirección en la que se está intentando dirigir el robot")
         orientacion = direccion
-        plot_robot_part(mapas.get_mundo(), 4.0, robot)
+        plot_robot_part(mapas.get_mundo(), 4.0, robot, final)
 
 
 def mueveArriba(orientacion, robot):
@@ -70,13 +70,14 @@ def mueveDerecha(orientacion, robot):
 
 
 
-def plot_robot_part(mapa, ps, robot):
+def plot_robot_part(mapa, ps, robot, final):
     mapa_imp = [[1 for j in range(len(mapa[0]))] for i in range(len(mapa))]
     for i in range(len(mapa)):
         for j in range(len(mapa[0])):
             mapa_imp[i][j] = mapa_imp[i][j] - mapa[i][j]
 
     plt.scatter(robot.x / ps, robot.y / ps, marker='o', s=1000, c='r')
+    plt.scatter(final[0], final[1], marker='x', s=100, c='b')
     plt.imshow(mapa_imp, origin='upper', extent=(0, len(mapa[0]), 0, len(mapa)))
     plt.gray()
     plt.show()

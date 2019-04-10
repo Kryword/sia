@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import pprint
 import aEstrella
 import recorreCaminoSimulado
+import funcionesMovimientoSimulado
 
 ## Declaración de operadores
 arriba = '^'
@@ -42,7 +43,7 @@ r1.set_map(mapa_mundo, 1)
 r1.set_floor_map(mapa_suelo)
 
 # Orientación hacía la derecha
-orientacionInicial = derecha
+orientacionInicial = arriba
 # Asignamos un estado al robot r1
 r1.set_estado(10, 10, math.pi / 2)
 print r1
@@ -104,7 +105,7 @@ def dist(x, y, xp, yp):
 # Primero vamos a crear una instancia de un robot que para nosotros va a ser el robot real:
 
 real = simRobot.simepuck()
-real.set_estado(12, 11, 0)
+real.set_estado(12, 11, math.pi/2)
 real.set_map(mapa_mundo, 4)
 real.set_floor_map(mapa_suelo)
 
@@ -241,4 +242,5 @@ resultadoAEstrella = aEstrella.algoritmoAEstrella(matrizHeuristica, posicionEsti
 print("Camino obtenido: ", resultadoAEstrella.camino)
 
 ## TODO: Hacer una clase de recorreCamino para el simepuck, esta solo funcionaría con el epuck real
-recorreCaminoSimulado.recorreCamino(resultadoAEstrella.camino, orientacionInicial, real)
+funcionesMovimientoSimulado.ajustarOrientacion(0, real)
+recorreCaminoSimulado.recorreCamino(resultadoAEstrella.camino, orientacionInicial, real, posicionObjetivoDiscretizada)

@@ -46,3 +46,16 @@ def move(robot, dist, t):
     robot.set_motors_speed(ticks, ticks, t)
     print ticks, ticks, t
     print robot.get_estado()
+
+def ajustarOrientacion(ang, robot):
+    angulo = ang/180.0*math.pi
+    fallo = 0.2
+    ticks = 1000
+    t = 0.1
+    estado = robot.get_estado()
+    print estado
+    print "angulo: ", angulo
+    while (estado[2] < angulo - fallo or estado[2] > angulo + fallo):
+        robot.set_motors_speed(ticks, -ticks, t)
+        estado = robot.get_estado()
+        print estado
