@@ -17,14 +17,21 @@ import aEstrella
 import recorreCaminoSimulado
 import funcionesMovimientoSimulado
 
-## Generación de posición inicial aleatoria
-posicion_inicial = [int(random.random() * 12), int(random.random() * 12), math.pi / 2]
-
 ## Declaración de operadores
 arriba = '^'
 abajo = 'v'
 izquierda = '<'
 derecha = '>'
+
+## Datos posición iniciales
+## MODIFICAR LA POSICIÓN DESDE AQUÍ
+xI = 32
+yI = 32
+orientacionI = 0
+
+## Generación de posición inicial aleatoria
+# Orientación hacía la derecha
+orientacionInicial = arriba
 
 # Crear un objeto robot
 r1 = simRobot.simepuck()
@@ -41,23 +48,6 @@ print mundo_limX, mundo_limY
 mapa_suelo = mapas.get_suelo()
 print mapa_mundo
 print mapa_suelo
-
-r1.set_map(mapa_mundo, 1)
-r1.set_floor_map(mapa_suelo)
-
-# Orientación hacía la derecha
-orientacionInicial = arriba
-# Asignamos un estado al robot r1
-r1.set_estado(posicion_inicial[0], posicion_inicial[1], posicion_inicial[2])
-print r1
-
-# Obtenemos los valores de los sensores de proximidad
-values = r1.get_proximity()
-print values
-
-# Obtenemos los valores de los sensores de proximidad
-values = r1.get_floor_sensors()
-print values
 
 # FUNCIONES NECESARIAS:
 
@@ -108,7 +98,7 @@ def dist(x, y, xp, yp):
 # Primero vamos a crear una instancia de un robot que para nosotros va a ser el robot real:
 
 real = simRobot.simepuck()
-real.set_estado(12, 11, math.pi/2)
+real.set_estado(xI, yI, orientacionI)
 real.set_map(mapa_mundo, 4)
 real.set_floor_map(mapa_suelo)
 
@@ -218,7 +208,7 @@ posicionEnMapa = [0, 0]
 posicionEnMapa[0] = math.floor(posicionEstimada[0]/4)
 posicionEnMapa[1] = math.floor(posicionEstimada[1]/4)
 
-posicionObjetivo = [40/4, 40/4] # posicion / pixelSize
+posicionObjetivo = [12/4, 12/4] # posicion / pixelSize
 matrizHeuristica = numpy.zeros([len(mapa_mundo), len(mapa_mundo)])
 # Calculamos la atriz heuristica siguindo la distancia Manhattan
 for i in range(len(mapa_mundo)):

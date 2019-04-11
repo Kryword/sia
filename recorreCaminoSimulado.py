@@ -68,8 +68,6 @@ def mueveDerecha(orientacion, robot):
             gira(robot, 90, 0.5)
     move(robot, 40, 0.5)
 
-
-
 def plot_robot_part(mapa, ps, robot, final):
     mapa_imp = [[1 for j in range(len(mapa[0]))] for i in range(len(mapa))]
     for i in range(len(mapa)):
